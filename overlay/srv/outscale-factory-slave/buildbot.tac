@@ -1,10 +1,12 @@
+# -*- python -*-
+# ex: set syntax=python:
 
 import os
 
 from twisted.application import service
 from buildslave.bot import BuildSlave
 
-basedir = r'/root/buildbot-slave-0.8.6p1'
+basedir = r'/srv/outscale-factory-slave'
 rotateLength = 10000000
 maxRotatedFiles = 10
 
@@ -27,10 +29,12 @@ except ImportError:
   # probably not yet twisted 8.2.0 and beyond, can't set log yet
   pass
 
-buildmaster_host = 'master'
+import boto.utils
+
+(buildmaster_host, 
+slavename, 
+passwd) = boto.utils.get_instance_userdata().split('\n')
 port = 9989
-slavename = 'name'
-passwd = 'passwd'
 keepalive = 600
 usepty = 0
 umask = None
