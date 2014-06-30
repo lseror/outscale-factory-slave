@@ -1,0 +1,21 @@
+#!/bin/sh
+set -e -u -x
+
+TOOLS_GIT=git://github.com/nodalink/outscale-image-factory.git
+TOOLS_DIR=/usr/src/outscale-image-factory
+
+# The proxy is on the buildmaster 
+sysv-rc-conf polipo off
+
+# The slave is not user-configurable 
+sysv-rc-conf turnkey-init-fence off
+echo > /usr/lib/inithooks/firstboot.d/30turnkey-init-fence 
+
+# Install factory tools
+git clone $TOOLS_GIT $TOOLS_DIR
+make -C $TOOLS_DIR install
+
+# Start buildslave after inithooks
+sed -i.dpkg-dist \
+    's/^# *Required-Start: .\+$/# Required-Start:    $all/' \
+    /etc/init.d/buildslave
