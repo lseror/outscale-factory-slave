@@ -11,3 +11,10 @@ squashfs-tools
 polipo
 sysv-rc-conf
 
+buildbot-slave
+parted
+python-boto
+python-setuptools
+python3-setuptools
+rsync
+tklpatch
