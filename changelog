@@ -1,3 +1,9 @@
+outscale-factory-slave-13.0 (2) turnkey; urgency=low
+
+  * Create slave factory appliance based on tkldev.
+
+ -- Vincent Crevot <vincent+git@retroject.net>  Wed, 06 May 2014 21:11:56 +0000
+
 turnkey-tkldev-13.0 (1) turnkey; urgency=low
 
   * Related bugfixes and tweaks:
