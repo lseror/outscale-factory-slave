@@ -6,6 +6,38 @@ import os
 from twisted.application import service
 from buildslave.bot import BuildSlave
 
+
+def _load_slave_config_from_userdata():
+    global buildmaster_host
+    global slavename
+    global passwd
+
+    import boto.utils
+
+    (buildmaster_host,
+    slavename,
+    passwd) = boto.utils.get_instance_userdata().split('\n')
+
+
+def _load_slave_config():
+    global buildmaster_host
+    global slavename
+    global passwd
+
+    import json
+
+    config_filename = "/etc/outscale-factory-slave/slave.json"
+    if not os.path.exists(config_filename):
+        _load_slave_config_from_userdata()
+        return
+
+    with open(config_filename) as f:
+        config = json.load(f)
+    buildmaster_host = config['buildmaster_host']
+    slavename = config['slavename']
+    passwd = config['passwd']
+
+
 basedir = r'/srv/outscale-factory-slave'
 rotateLength = 10000000
 maxRotatedFiles = 10
@@ -29,16 +61,13 @@ except ImportError:
   # probably not yet twisted 8.2.0 and beyond, can't set log yet
   pass
 
-import boto.utils
-
-(buildmaster_host, 
-slavename, 
-passwd) = boto.utils.get_instance_userdata().split('\n')
 port = 9989
 keepalive = 600
 usepty = 0
 umask = None
 maxdelay = 300
+
+_load_slave_config()
 
 s = BuildSlave(buildmaster_host, port, slavename, passwd, basedir,
                keepalive, usepty, umask=umask, maxdelay=maxdelay)
