@@ -7,7 +7,7 @@ from twisted.application import service
 from buildslave.bot import BuildSlave
 
 
-def _load_slave_config_from_userdata():
+def _load_slave_config_from_instance_userdata():
     global buildmaster_host
     global slavename
     global passwd
@@ -28,7 +28,7 @@ def _load_slave_config():
 
     config_filename = "/etc/outscale-factory-slave/slave.json"
     if not os.path.exists(config_filename):
-        _load_slave_config_from_userdata()
+        _load_slave_config_from_instance_userdata()
         return
 
     with open(config_filename) as f:
