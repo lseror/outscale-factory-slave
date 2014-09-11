@@ -33,6 +33,9 @@ def _load_slave_config():
 
     with open(config_filename) as f:
         config = json.load(f)
+    if config['ec2_slave']:
+        _load_slave_config_from_instance_userdata()
+        return
     buildmaster_host = config['buildmaster_host']
     slavename = config['slavename']
     passwd = config['passwd']

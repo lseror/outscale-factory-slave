@@ -1,6 +1,0 @@
-#!/bin/bash -e
-# set gitlab admin password, email and domain to serve
-
-. /etc/default/inithooks
-[ -e $INITHOOKS_CONF ] && . $INITHOOKS_CONF
-$INITHOOKS_PATH/bin/slave.py

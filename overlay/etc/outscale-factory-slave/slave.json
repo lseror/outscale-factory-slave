@@ -1,0 +1,7 @@
+{
+    "__doc__": "To create a plain slave, set 'ec2_slave' to false and fill the other keys with appropriate values",
+    "ec2_slave": true,
+    "buildmaster_host": "<ip of the host running buildmaster>",
+    "slavename": "<name of the slave, as defined in the buildmaster configuration>",
+    "passwd": "<password of the slave, as defined in the buildmaster configuration>"
+}
